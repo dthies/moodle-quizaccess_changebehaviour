@@ -58,6 +58,7 @@ class restore_quizaccess_changebehaviour_subplugin extends restore_mod_quiz_acce
 
         $data = (object)$data;
         $data->quizid = $this->get_new_parentid('quiz');
+        $data->behaviourtime = $this->apply_date_offset($data->behaviourtime);
         $DB->insert_record('quizaccess_changebehaviour', $data);
     }
 }
