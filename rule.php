@@ -53,7 +53,7 @@ class quizaccess_changebehaviour extends quiz_access_rule_base {
         if (!empty($this->quiz->behaviourtime)) {
             $timeremaining = $this->quiz->behaviourtime - $this->timenow;
             if ($timeremaining > 0) {
-                return get_string('changebehaviournotice', 'quizaccess_changebehaviour', array('time' => format_time($timeremaining)));
+                return get_string('changebehaviournotice', 'quizaccess_changebehaviour', array('time' => userdate($this->quiz->behaviourtime)));
             }
         }
         return '';
