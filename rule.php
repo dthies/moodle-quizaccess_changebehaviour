@@ -61,12 +61,14 @@ class quizaccess_changebehaviour extends quiz_access_rule_base {
     public static function add_settings_form_fields(
             mod_quiz_mod_form $quizform, MoodleQuickForm $mform) {
         $mform->addElement('date_time_selector', 'behaviourtime', get_string('behaviourtime', 'quizaccess_changebehaviour'), array('optional' => true, 'step' => 1));
+        $mform->disabledIf('behaviourtime', 'timeclose[enabled]');
         $mform->addHelpButton('behaviourtime', 'behaviourtime', 'quizaccess_changebehaviour');
 
         $currentbehaviour = 'adaptive';
         $behaviours = question_engine::get_behaviour_options($currentbehaviour);
         $mform->addElement('select', 'newbehaviour',
                 get_string('newbehaviour', 'quizaccess_changebehaviour'), $behaviours);
+        $mform->disabledIf('newbehaviour', 'timeclose[enabled]');
         $mform->disabledIf('newbehaviour', 'behaviourtime[enabled]');
 
     }
