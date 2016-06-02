@@ -64,13 +64,11 @@ class quizaccess_changebehaviour extends quiz_access_rule_base {
         $mform->disabledIf('behaviourtime', 'timeclose[enabled]');
         $mform->addHelpButton('behaviourtime', 'behaviourtime', 'quizaccess_changebehaviour');
 
-        $currentbehaviour = 'adaptive';
-        $behaviours = question_engine::get_behaviour_options($currentbehaviour);
+        $behaviours = question_engine::get_behaviour_options(null);
         $mform->addElement('select', 'newbehaviour',
                 get_string('newbehaviour', 'quizaccess_changebehaviour'), $behaviours);
         $mform->disabledIf('newbehaviour', 'timeclose[enabled]');
         $mform->disabledIf('newbehaviour', 'behaviourtime[enabled]');
-
     }
 
     public static function save_settings($quiz) {

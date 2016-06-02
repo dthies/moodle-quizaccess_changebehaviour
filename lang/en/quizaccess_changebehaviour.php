@@ -26,6 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Change question behaviour';
 $string['behaviourtime'] = 'Extend the close time';
-$string['newbehaviour'] = 'New behaviour';
+$string['newbehaviour'] = 'Behaviour during extension';
 $string['changebehaviournotice'] = 'The original due date for this quiz was {$a->time}. It has been extended, but the conditions may have changed.';
-$string['behaviourtime_help'] = 'Set a new close time to extend the quiz and a new behaviour to be applied after the original close date has expired. This is an opportunity to change the conditions for students who wait too late to attempt the quiz.';
+$string['behaviourtime_help'] = 'Set a new close time to extend the quiz and a new behaviour to apply to attempts started after the original close. This is an opportunity to change the conditions for students who wait too late to attempt the quiz.';
