@@ -2,9 +2,9 @@ quizaccess_changebehaviour
 =================
 
 This is a quiz access rule for Moodle Quiz that adds settings to the
-quiz to override the question behaviour with new value after a specified
-time. It can be used to penalize students that procrastinate by changing
-to a less favorable behaviour.
+quiz to extend the close time and override the question behaviour with
+new value during the extension. It can be used to penalize students that
+procrastinate by changing to a less favorable behaviour.
 
 Copy this directory to quiz/accessrule/changebehaviour in Moodle
 directory. Login as admin to complete plugin installation.  Then specify

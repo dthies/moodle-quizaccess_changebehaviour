@@ -41,7 +41,9 @@ class quizaccess_changebehaviour extends quiz_access_rule_base {
     public static function make(quiz $quizobj, $timenow, $canignoretimelimits) {
 
         if (!empty($quizobj->get_quiz()->behaviourtime)) {
-            if ($quizobj->get_quiz()->behaviourtime < $timenow) {
+            if ($quizobj->get_quiz()->timeclose < $timenow) {
+                $quizobj->get_quiz()->originalclose = $quizobj->get_quiz()->timeclose;
+                $quizobj->get_quiz()->timeclose = $quizobj->get_quiz()->behaviourtime;
                 $quizobj->get_quiz()->preferredbehaviour = $quizobj->get_quiz()->newbehaviour;
             }
         }
@@ -50,11 +52,8 @@ class quizaccess_changebehaviour extends quiz_access_rule_base {
     }
 
     public function description() {
-        if (!empty($this->quiz->behaviourtime)) {
-            $timeremaining = $this->quiz->behaviourtime - $this->timenow;
-            if ($timeremaining > 0) {
-                return get_string('changebehaviournotice', 'quizaccess_changebehaviour', array('time' => userdate($this->quiz->behaviourtime)));
-            }
+        if (!empty($this->quiz->originalclose)) {
+            return get_string('changebehaviournotice', 'quizaccess_changebehaviour', array('time' => userdate($this->quiz->originalclose)));
         }
         return '';
     }
