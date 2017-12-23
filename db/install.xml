@@ -8,6 +8,7 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="quizid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="behaviourduration" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The amount of time to extend with new behaviour. (0 = no change.)"/>
         <FIELD NAME="behaviourtime" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The time when the behaviour should be changed. (0 = no change.)"/>
         <FIELD NAME="newbehaviour" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" COMMENT="The behaviour to ask questions to use after the date"/>
       </FIELDS>

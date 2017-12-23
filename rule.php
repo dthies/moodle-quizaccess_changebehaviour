@@ -40,14 +40,24 @@ class quizaccess_changebehaviour extends quiz_access_rule_base {
 
     public static function make(quiz $quizobj, $timenow, $canignoretimelimits) {
 
-        if (empty($quizobj->get_quiz()->behaviourtime) ||
-                $quizobj->get_quiz()->behaviourtime < $timenow ||
+        $newclose = $quizobj->get_quiz()->timeclose;
+
+        if (!empty($quizobj->get_quiz()->behaviourtime)) {
+            $newclose = $quizobj->get_quiz()->behaviourtime;
+        }
+
+        if (!empty($quizobj->get_quiz()->behaviourduration)) {
+            $newclose = max($newclose, $quizobj->get_quiz()->timeclose + $quizobj->get_quiz()->behaviourduration);
+        }
+
+        if ($newclose <= $quizobj->get_quiz()->timeclose ||
+                $newclose < $timenow ||
                 $quizobj->get_quiz()->timeclose > $timenow) {
             return null;
         }
 
         $quizobj->get_quiz()->originalclose = $quizobj->get_quiz()->timeclose;
-        $quizobj->get_quiz()->timeclose = $quizobj->get_quiz()->behaviourtime;
+        $quizobj->get_quiz()->timeclose = $newclose;
         $quizobj->get_quiz()->preferredbehaviour = $quizobj->get_quiz()->newbehaviour;
 
         return new self($quizobj, $timenow);
@@ -65,22 +75,25 @@ class quizaccess_changebehaviour extends quiz_access_rule_base {
         $mform->addElement('date_time_selector', 'behaviourtime', get_string('behaviourtime', 'quizaccess_changebehaviour'), array('optional' => true, 'step' => 1));
         $mform->disabledIf('behaviourtime', 'timeclose[enabled]');
         $mform->addHelpButton('behaviourtime', 'behaviourtime', 'quizaccess_changebehaviour');
+        $mform->addElement('duration', 'behaviourduration', '',
+                array('optional' => true));
+        $mform->disabledIf('behaviourduration', 'timeclose[enabled]');
 
         $behaviours = question_engine::get_behaviour_options(null);
         $mform->addElement('select', 'newbehaviour',
                 get_string('newbehaviour', 'quizaccess_changebehaviour'), $behaviours);
         $mform->disabledIf('newbehaviour', 'timeclose[enabled]');
-        $mform->disabledIf('newbehaviour', 'behaviourtime[enabled]');
     }
 
     public static function save_settings($quiz) {
         global $DB;
 
         $DB->delete_records('quizaccess_changebehaviour', array('quizid' => $quiz->id));
-        if (!empty($quiz->behaviourtime)) {
+        if (!empty($quiz->behaviourtime) || !empty($quiz->behaviourduration)) {
             $record = new stdClass();
             $record->quizid = $quiz->id;
             $record->behaviourtime = $quiz->behaviourtime;
+            $record->behaviourduration = $quiz->behaviourduration;
             $record->newbehaviour = $quiz->newbehaviour;
             $DB->insert_record('quizaccess_changebehaviour', $record);
         }
@@ -93,7 +106,7 @@ class quizaccess_changebehaviour extends quiz_access_rule_base {
 
     public static function get_settings_sql($quizid) {
         return array(
-            'behaviourtime, newbehaviour',
+            'behaviourduration, behaviourtime, newbehaviour',
             'LEFT JOIN {quizaccess_changebehaviour} changebehaviour ON changebehaviour.quizid = quiz.id',
             array());
     }
