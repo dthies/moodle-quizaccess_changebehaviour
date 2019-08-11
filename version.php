@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2017122100;
+$plugin->version   = 2017122101;
 $plugin->requires  = 2013101800;
 $plugin->cron      = 0;
 $plugin->component = 'quizaccess_changebehaviour';
